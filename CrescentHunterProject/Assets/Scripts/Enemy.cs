@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BehaviorDesigner.Runtime.Tasks;
 
-public class Action_Target : Action
+public class Enemy : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()

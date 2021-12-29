@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BehaviorDesigner.Runtime;
 
 public class Status : MonoBehaviour
 {
@@ -9,14 +10,16 @@ public class Status : MonoBehaviour
     int Damage { get => damage; }
 
     [SerializeField]
-    int HP = 100;
+    int health = 100;
+    public int Health { get => health; }
+
     [SerializeField]
     int MaxHP = 100;
 
     public void Hit(int Damage)
     {
-        HP -= Damage;
-        Mathf.Clamp(HP, 0, MaxHP);
+        health -= Damage;
+        Mathf.Clamp(health, 0, MaxHP);
     }
 
     void OnTriggerEnter(Collider other)
