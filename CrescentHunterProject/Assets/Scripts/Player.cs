@@ -16,6 +16,9 @@ public class Player : MonoBehaviour
 
     bool cursorInScreen = true;
 
+    Vector3 dir = Vector3.zero;
+    Quaternion qDir;
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -23,45 +26,47 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Z))
             CursorLock();
 
-            animator.SetFloat("Speed", 0.0f);
+
         if (Input.GetMouseButtonDown(0))
+        {
             animator.SetTrigger("Left Attack");
+            transform.rotation = Quaternion.Euler(0, CameraTransform.rotation.eulerAngles.y, 0);
+        }
+
         if (Input.GetMouseButtonDown(1))
+        {
             animator.SetBool("Right Attack", true);
-
-
-
+            transform.rotation = Quaternion.Euler(0, CameraTransform.rotation.eulerAngles.y, 0);
+        }
 
         if (animator.GetBool("Movable") == false) return;
 
-        if (Input.GetKey(KeyCode.W))
-        {
-            transform.Translate(Speed * Vector3.forward * Time.deltaTime);
-            animator.SetFloat("Speed", 3.0f);
+        animator.SetFloat("Speed", 0.0f);
+        dir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 
-            transform.rotation = Quaternion.Euler(0, CameraTransform.rotation.eulerAngles.y, 0);
-        }
-        if (Input.GetKey(KeyCode.A))
+        if (dir.sqrMagnitude > 0.1)
         {
-            transform.Translate(Speed * Vector3.left * Time.deltaTime);
-            animator.SetFloat("Speed", 3.0f);
+            Turn(dir);
+            RunForward();
         }
-        if (Input.GetKey(KeyCode.S))
-        {
-            transform.Translate(Speed * Vector3.back * Time.deltaTime);
-            animator.SetFloat("Speed", 3.0f);
-            transform.rotation = Quaternion.Euler(0, CameraTransform.rotation.eulerAngles.y, 0);
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            transform.Translate(Speed * Vector3.right * Time.deltaTime);
-            animator.SetFloat("Speed", 3.0f);
-        }
-                
     }
+
+    void RunForward()
+    {
+        transform.Translate(Speed * Vector3.forward * Time.deltaTime);
+        animator.SetFloat("Speed", 3.0f);
+    }
+
+    void Turn(Vector3 dir)
+    {
+        transform.rotation = 
+            Quaternion.LookRotation(dir, Vector3.up) *
+            Quaternion.Euler(0, CameraTransform.rotation.eulerAngles.y, 0);
+    }
+
 
     public void OnDamage()
     {
@@ -78,5 +83,4 @@ public class Player : MonoBehaviour
         cursorInScreen = !cursorInScreen;
         Cursor.lockState = cursorInScreen ? CursorLockMode.Locked : CursorLockMode.None;
     }
-
 }

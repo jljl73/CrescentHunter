@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    GameObject[] Damage;
+
+    
+    public void OnDamage(int index)
     {
-        
+        Damage[index].SetActive(true);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OffDamage(int index)
     {
-        
+        Damage[index].SetActive(false);
     }
+    
 }

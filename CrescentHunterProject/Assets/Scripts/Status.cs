@@ -27,6 +27,7 @@ public class Status : MonoBehaviour
         if(other.CompareTag("Damage"))
         {
             Hit(other.GetComponentInParent<Status>().Damage);
+            ObjectPool.Instance.CreateDamageText(other.bounds.center, other.GetComponentInParent<Status>().Damage);
         }
     }
 }
