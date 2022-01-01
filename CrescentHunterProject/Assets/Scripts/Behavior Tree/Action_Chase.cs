@@ -8,7 +8,6 @@ using BehaviorDesigner.Runtime.Tasks;
 public class Action_Chase : Action
 {
     public float speed = 2.0f;
-    public float StopDisatance = 1.0f;
     public SharedTransform target;
     Animator animator;
 
@@ -22,6 +21,9 @@ public class Action_Chase : Action
     {
         if (target.Value == null)
             return TaskStatus.Failure;
+
+        if (animator.GetBool("Move") == false)
+            return TaskStatus.Running;
 
         transform.position = Vector3.MoveTowards(transform.position, target.Value.position, speed * Time.deltaTime);
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(target.Value.position - transform.position, Vector3.up).normalized, Time.deltaTime);

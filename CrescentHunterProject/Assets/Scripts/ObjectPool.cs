@@ -50,6 +50,11 @@ public class ObjectPool : MonoBehaviour
         newObj.GetComponent<DamageText>().Create(Damage);
     }
 
+    public void CreateRandomMissile(Vector3 position)
+    {
+
+    }
+
     public void DestoryDamageText(GameObject gameObject)
     {
         damagetexts.Push(gameObject);
