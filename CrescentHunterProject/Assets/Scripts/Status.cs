@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using M4u;
 using BehaviorDesigner.Runtime;
 
 public class Status : MonoBehaviour
@@ -14,12 +15,21 @@ public class Status : MonoBehaviour
     public int Health { get => health; }
 
     [SerializeField]
-    int MaxHP = 100;
+    protected int MaxHP = 100;
 
-    public void Hit(int Damage)
+
+    M4uProperty<bool> isActive = new M4uProperty<bool>(false);
+    public bool IsActive { get => isActive.Value; set => isActive.Value = value; }
+
+
+    public virtual void Hit(int Damage)
     {
+        IsActive = !IsActive;
+        Debug.Log(IsActive);
+
         health -= Damage;
         Mathf.Clamp(health, 0, MaxHP);
+        
     }
 
     void OnTriggerEnter(Collider other)
