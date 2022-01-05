@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField]
     float Speed = 3.0f;
-    Animator animator;
+    
 
     [SerializeField]
     GameObject damage;
@@ -17,19 +17,27 @@ public class Player : MonoBehaviour
     [SerializeField]
     GameObject SelectedObject;
 
-    bool cursorInScreen = true;
 
+    bool cursorInScreen = true;
     Vector3 dir = Vector3.zero;
     Quaternion qDir;
 
     List<GameObject> NearObjects = new List<GameObject>();
 
-    public static Player Instance;
+    Animator animator;
+    PlayerStatus status;
+
+    public Inventory inventory = new Inventory();
+
+    void Awake()
+    {
+        GameManager.Instance.player = this;
+    }
 
     void Start()
     {
         animator = GetComponent<Animator>();
-        Instance = this;
+        status = GetComponent<PlayerStatus>();
     }
 
     void Update()
@@ -38,19 +46,19 @@ public class Player : MonoBehaviour
             CursorLock();
 
         if (Input.GetKeyDown(KeyCode.G))
+        {
             Interaction();
-
+            inventory.Print();
+        }
 
         if (Input.GetMouseButtonDown(0))
         {
-            animator.SetTrigger("Left Attack");
-            transform.rotation = Quaternion.Euler(0, CameraTransform.rotation.eulerAngles.y, 0);
+            LightAttack();
         }
 
         if (Input.GetMouseButtonDown(1))
         {
-            animator.SetBool("Right Attack", true);
-            transform.rotation = Quaternion.Euler(0, CameraTransform.rotation.eulerAngles.y, 0);
+            HeavyAttack();
         }
 
         if (animator.GetBool("Movable") == false)
@@ -64,8 +72,6 @@ public class Player : MonoBehaviour
             Turn(dir);
             RunForward();
         }
-
-
     }
 
     void RunForward()
@@ -76,11 +82,28 @@ public class Player : MonoBehaviour
 
     void Turn(Vector3 dir)
     {
-        transform.rotation = 
+        transform.rotation =
             Quaternion.LookRotation(dir, Vector3.up) *
             Quaternion.Euler(0, CameraTransform.rotation.eulerAngles.y, 0);
     }
 
+    void LightAttack()
+    {
+        if (status.Stamina < 5)
+            return;
+
+        animator.SetTrigger("Left Attack");
+        transform.rotation = Quaternion.Euler(0, CameraTransform.rotation.eulerAngles.y, 0);
+    }
+
+    void HeavyAttack()
+    {
+        if (status.Stamina < 10)
+            return;
+
+        animator.SetBool("Right Attack", true);
+        transform.rotation = Quaternion.Euler(0, CameraTransform.rotation.eulerAngles.y, 0);
+    }
 
     public void OnDamage()
     {
@@ -90,6 +113,7 @@ public class Player : MonoBehaviour
     public void OffDamage()
     {
         damage?.SetActive(false);
+        status.AddStamina(-5);
     }
 
     public void CursorLock()

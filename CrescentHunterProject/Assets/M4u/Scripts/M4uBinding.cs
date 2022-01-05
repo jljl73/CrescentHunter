@@ -5,6 +5,7 @@
 using UnityEngine;
 using System;
 using System.Reflection;
+using TMPro;
 
 namespace M4u
 {
@@ -121,7 +122,7 @@ namespace M4u
                 parent = value;
             }
         }
-
+        
         public void GetMemberInfo(ref string name, ref object parent, ref PropertyInfo pi, ref FieldInfo fi, ref object value)
         {
             Type type = parent.GetType();

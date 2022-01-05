@@ -40,7 +40,7 @@ public class ObjectPool : MonoBehaviour
             damagetexts.Push(Instantiate(DamageText, canvas.transform));
     }
 
-    public void CreateDamageText(Vector3 position, int Damage)
+    public void CreateDamageText(Vector3 position, float Damage)
     {
         if(damagetexts.Count == 0)
             damagetexts.Push(Instantiate(DamageText));

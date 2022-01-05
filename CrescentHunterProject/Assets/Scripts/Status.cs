@@ -7,30 +7,44 @@ using BehaviorDesigner.Runtime;
 public class Status : MonoBehaviour
 {
     [SerializeField]
-    int damage = 10;
-    int Damage { get => damage; }
+    float damage = 10;
+    float Damage { get => damage; }
 
     [SerializeField]
-    int health = 100;
-    public int Health { get => health; }
+    float health = 100;
+    public float Health { get => health; }
 
     [SerializeField]
-    protected int MaxHP = 100;
+    float maxHp = 100;
+    public float MaxHp { get => maxHp; }
 
+    [SerializeField]
+    float stamina = 100;
+    public float Stamina { get => stamina; }
 
-    M4uProperty<bool> isActive = new M4uProperty<bool>(false);
-    public bool IsActive { get => isActive.Value; set => isActive.Value = value; }
+    [SerializeField]
+    protected float MaxSP = 100;
 
+      
 
-    public virtual void Hit(int Damage)
+    public virtual void Heal(float value)
     {
-        IsActive = !IsActive;
-        Debug.Log(IsActive);
-
-        health -= Damage;
-        Mathf.Clamp(health, 0, MaxHP);
-        
+        health += value;
+        Mathf.Clamp(health, 0, MaxHp);
     }
+
+    public virtual void Hit(float Damage)
+    {
+        health -= Damage;
+        Mathf.Clamp(health, 0, MaxHp);
+    }
+
+    public virtual void AddStamina(float Value)
+    {
+        stamina += Value;
+        Mathf.Clamp(stamina, 0, MaxSP);
+    }
+
 
     void OnTriggerEnter(Collider other)
     {

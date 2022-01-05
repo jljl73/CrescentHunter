@@ -39,7 +39,7 @@ public class DamageText : MonoBehaviour
         ObjectPool.Instance.DestoryDamageText(gameObject);
     }
 
-    public void Create(int Damage)
+    public void Create(float Damage)
     {
         gameObject.SetActive(true);
         text.text = Damage.ToString();
