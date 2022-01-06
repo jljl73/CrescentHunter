@@ -9,6 +9,8 @@ public class Lever : MonoBehaviour, IInteraction
 
     Animator animator;
 
+    public string IName => "·¹¹ö";
+
     void Start()
     {
         animator = GetComponentInChildren<Animator>();

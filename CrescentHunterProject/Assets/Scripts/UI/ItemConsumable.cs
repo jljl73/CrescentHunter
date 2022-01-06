@@ -14,7 +14,7 @@ public class ItemConsumable : ItemSO
     [SerializeField]
     float AddMaxStamina;
 
-    public void Use(Status status)
+    public override void Use(Status status)
     {
         status.Heal(AddHealth);
         status.AddStamina(AddStamina);

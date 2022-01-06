@@ -36,9 +36,30 @@ public class ItemContext : M4uContext
 
     public void Copy(ItemContext itemContext)
     {
+        if (itemContext == null)
+        {
+            Name = "¾øÀ½";
+            Num = 0;
+            return;
+        }
+
         Name = itemContext.Name;
         Sprite = itemContext.Sprite;
         Num = itemContext.Num;
+    }
+
+    public void Copy(ItemSO itemSO, int Num)
+    {
+        this.Name = itemSO.ItemName;
+        this.Sprite = itemSO.Sprite;
+        this.Num = Num;
+    }
+
+    public void Copy(string Name, Sprite Sprite, int Num)
+    {
+        this.Name = Name;
+        this.Sprite = Sprite;
+        this.Num = Num;
     }
 
 }

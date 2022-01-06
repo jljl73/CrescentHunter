@@ -48,7 +48,6 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.G))
         {
             Interaction();
-            inventory.Print();
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -61,7 +60,15 @@ public class Player : MonoBehaviour
             HeavyAttack();
         }
 
-        if (animator.GetBool("Movable") == false)
+        if (Input.GetKeyDown(KeyCode.Q))
+            inventory.ChangeSlot(false);
+        if (Input.GetKeyDown(KeyCode.E))
+            inventory.ChangeSlot(true);
+        if (Input.GetKeyDown(KeyCode.F))
+            inventory.UseCurrentSlot(status);
+
+
+            if (animator.GetBool("Movable") == false)
             return;
 
         animator.SetFloat("Speed", 0.0f);
@@ -146,19 +153,27 @@ public class Player : MonoBehaviour
                 Nearest = NearObjects[i];
             }
         }
-
         return Nearest;
     }
 
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Interaction"))
+        {
             NearObjects.Add(other.gameObject);
+            GameManager.Instance.Context.ItemName = NearestObject()?.GetComponent<IInteraction>().IName;
+        }
     }
 
     void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Interaction"))
+        {
             NearObjects.Remove(other.gameObject);
+            if (NearestObject() == null)
+                GameManager.Instance.Context.ItemName = "";
+            else
+                GameManager.Instance.Context.ItemName = NearestObject().GetComponent<IInteraction>().IName;
+        }
     }
 }

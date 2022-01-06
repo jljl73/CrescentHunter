@@ -6,6 +6,8 @@ public class Rocks : MonoBehaviour, IInteraction
 {
     bool Falling = false;
 
+    public string IName => "³«¼®";
+
     public void OnInteraction()
     {
         Falling = true;

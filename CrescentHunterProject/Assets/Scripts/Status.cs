@@ -29,20 +29,17 @@ public class Status : MonoBehaviour
 
     public virtual void Heal(float value)
     {
-        health += value;
-        Mathf.Clamp(health, 0, MaxHp);
+        health = Mathf.Clamp(health + value, 0, MaxHp);
     }
 
     public virtual void Hit(float Damage)
     {
-        health -= Damage;
-        Mathf.Clamp(health, 0, MaxHp);
+        health = Mathf.Clamp(health - Damage, 0, MaxHp);
     }
 
     public virtual void AddStamina(float Value)
     {
-        stamina += Value;
-        Mathf.Clamp(stamina, 0, MaxSP);
+        stamina = Mathf.Clamp(stamina + Value, 0, MaxSP);
     }
 
 

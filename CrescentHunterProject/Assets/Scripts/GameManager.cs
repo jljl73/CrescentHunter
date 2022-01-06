@@ -22,5 +22,5 @@ public class GameManager : MonoBehaviour
 
     public M4uContextMonoBehaviour Context;
     public Player player;
-  
+    public LogManager logManager;
 }

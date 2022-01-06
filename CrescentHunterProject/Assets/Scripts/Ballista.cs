@@ -11,6 +11,8 @@ public class Ballista : MonoBehaviour, IInteraction
     int idxLoad;
     int idxShoot;
 
+    public string IName => "발리스타";
+
     void Start()
     {
         animator = GetComponent<Animator>();

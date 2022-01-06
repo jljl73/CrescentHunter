@@ -4,5 +4,6 @@ using UnityEngine;
 
 public interface IInteraction
 {
+    string IName { get; }
     void OnInteraction();
 }

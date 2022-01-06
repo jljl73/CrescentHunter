@@ -29,14 +29,20 @@ namespace M4u
         public Sprite ItemSlotCSprite { get => itemSlotCSprite.Value; set => itemSlotCSprite.Value = value; }
 
         M4uProperty<ItemContext> itemSlotC = new M4uProperty<ItemContext>(new ItemContext());
-        public ItemContext ItemSlotC { get => itemSlotC.Value; set => itemSlotC.Value.Copy(value); }
+        public ItemContext ItemSlotC { get => itemSlotC.Value; set { itemSlotC.Value.Copy(value); } }
 
         M4uProperty<ItemContext> itemSlotL = new M4uProperty<ItemContext>(new ItemContext());
-        public ItemContext ItemSlotL { get => itemSlotL.Value; set => itemSlotL.Value.Copy(value); }
-
+        public ItemContext ItemSlotL { get => itemSlotL.Value; set { itemSlotL.Value.Copy(value); } }
+        
         M4uProperty<ItemContext> itemSlotR = new M4uProperty<ItemContext>(new ItemContext());
-        public ItemContext ItemSlotR { get => itemSlotR.Value; set => itemSlotR.Value.Copy(value); }
+        public ItemContext ItemSlotR { get => itemSlotR.Value; set { itemSlotR.Value.Copy(value); } }
 
+        // 근처 상호작용 가능
+        M4uProperty<string> itemName = new M4uProperty<string>("");
+        public string ItemName { get => itemName.Value; set => itemName.Value = value; }
 
+        // 획득한 아이템
+        M4uProperty<List<string>> itemLogs = new M4uProperty<List<string>>(new List<string>());
+        public List<string> ItemLogs { get => itemLogs.Value; set => itemLogs.Value = value; }
     }
 }

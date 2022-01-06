@@ -8,5 +8,4 @@ public class IdleBehaviour : StateMachineBehaviour
     {
         animator.SetBool("Movable", true);
     }
-
 }

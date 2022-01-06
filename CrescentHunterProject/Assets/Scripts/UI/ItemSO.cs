@@ -15,4 +15,9 @@ public class ItemSO : ScriptableObject
     int num = 0;
     public int Num { get => num; set => num = value; }
 
+
+    public virtual void Use(Status status)
+    {
+
+    }
 }

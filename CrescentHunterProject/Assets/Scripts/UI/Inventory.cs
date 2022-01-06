@@ -4,41 +4,79 @@ using UnityEngine;
 
 public class Inventory
 {
-    ItemContext[] items = new ItemContext[12];
+    ItemContext tempContext;
+
+    public class ItemData
+    {
+        public ItemSO itemSO;
+        public int num;
+        public ItemData(ItemSO itemSO, int num)
+        {
+            this.itemSO = itemSO;
+            this.num = num;
+        }
+    }
+    [SerializeField]
+    List<ItemData> items = new List<ItemData>();
+
+    int index = 0;
     
     public void Add(ItemSO item)
     {
-        int emptyIndex = -1;
-        for(int i = items.Length - 1; i >= 0; --i)
+        for(int i = items.Count - 1; i >= 0; --i)
         {
-            if (items[i] == null)
-                emptyIndex = i;
-            else if (item.ItemName == items[i].Name)
+            if (item == items[i].itemSO)
             {
-                items[i].Num += item.Num;
+                items[i].num += 1;
+                UpdateSlot(index);
                 return;
             }
         }
 
-        if (emptyIndex > -1)
-            items[emptyIndex] = new ItemContext(item.ItemName, item.Sprite, item.Num);
-        SlotChange(0);
+        if (items.Count >= 12) // º“¡ˆ«∞¿Ã ≤À√°Ω¿¥œ¥Ÿ.
+            return;
+        items.Add(new ItemData(item, 1));
+        UpdateSlot(index);
     }
 
-    public void Print()
+    public void ChangeSlot(bool Right)
     {
-        for(int i = 0; i < items.Length;++i)
+        if (Right) ++index;
+        else --index;
+
+        index = Mathf.Clamp(index, 0, items.Count - 1);
+        UpdateSlot(index);
+    }
+
+    public void UseCurrentSlot(Status status)
+    {
+        if (items.Count == 0) return;
+
+        items[index].itemSO.Use(status);
+        if (--items[index].num == 0)
         {
-            if (items[i] != null)
-            {
-                Debug.Log(i);
-                Debug.Log(items[i].Name + items[i].Num.ToString());
-            }
+            items.Remove(items[index]);
+            ChangeSlot(false);
         }
+        else
+            UpdateSlot(index);
     }
 
-    public void SlotChange(int i)
+    void UpdateSlot(int i)
     {
-        GameManager.Instance.Context.ItemSlotC = items[0];
+
+        if (i > 0)
+            GameManager.Instance.Context.ItemSlotL.Copy(items[i - 1].itemSO, items[i - 1].num);
+        else
+            GameManager.Instance.Context.ItemSlotL.Copy(null);
+        if (i < items.Count - 1)
+            GameManager.Instance.Context.ItemSlotR.Copy(items[i + 1].itemSO, items[i + 1].num);
+        else
+            GameManager.Instance.Context.ItemSlotR.Copy(null);
+
+        if (items.Count > 0)
+            GameManager.Instance.Context.ItemSlotC.Copy(items[i].itemSO, items[i].num);
+        else
+            GameManager.Instance.Context.ItemSlotC.Copy(null);
     }
 }
