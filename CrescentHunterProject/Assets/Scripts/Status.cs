@@ -42,6 +42,10 @@ public class Status : MonoBehaviour
         stamina = Mathf.Clamp(stamina + Value, 0, MaxSP);
     }
 
+    public virtual void SubStamina(float Value)
+    {
+        stamina = Mathf.Clamp(stamina - Value, 0, MaxSP);
+    }
 
     void OnTriggerEnter(Collider other)
     {

@@ -20,7 +20,6 @@ public class Player : MonoBehaviour
 
     bool cursorInScreen = true;
     Vector3 dir = Vector3.zero;
-    Quaternion qDir;
 
     List<GameObject> NearObjects = new List<GameObject>();
 
