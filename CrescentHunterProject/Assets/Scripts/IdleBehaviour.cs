@@ -7,5 +7,6 @@ public class IdleBehaviour : StateMachineBehaviour
     public override void OnStateEnter(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
     {
         animator.SetBool("Movable", true);
+        animator.SetBool("Right Attack End", false);
     }
 }

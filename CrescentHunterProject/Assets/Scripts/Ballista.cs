@@ -32,5 +32,6 @@ public class Ballista : MonoBehaviour, IInteraction
     {
         Debug.Log("Shoot");
         bolt.GetComponent<Rigidbody>().AddForce(Vector3.forward * 50.0f, ForceMode.Impulse);
+        bolt.GetComponent<Collider>().enabled = true;
     }
 }

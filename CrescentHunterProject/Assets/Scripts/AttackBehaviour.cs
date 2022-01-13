@@ -16,5 +16,6 @@ public class AttackBehaviour : StateMachineBehaviour
     {
         animator.SetBool("Left Attack", false);
         animator.SetBool("Right Attack", false);
+        
     }
 }

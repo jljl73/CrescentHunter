@@ -17,9 +17,6 @@ namespace M4u
 
         M4uContextInterface context;
 
-        /// <summary>
-        /// Context. Data Binding to View
-        /// </summary>
 		public M4uContextInterface Context
         {
             get

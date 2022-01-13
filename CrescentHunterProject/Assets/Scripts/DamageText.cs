@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text;
 using TMPro;
 
 public class DamageText : MonoBehaviour
@@ -10,6 +11,8 @@ public class DamageText : MonoBehaviour
 
     TextMeshProUGUI text;
     Color initialColor;
+
+    StringBuilder sb = new StringBuilder();
 
     void Awake()
     {
@@ -21,7 +24,7 @@ public class DamageText : MonoBehaviour
     {
         Invoke("Disapear", Duration);
         text.color = initialColor;
-        StartCoroutine(FadeOut());
+        //StartCoroutine(FadeOut());
     }
 
     IEnumerator FadeOut()
@@ -39,9 +42,16 @@ public class DamageText : MonoBehaviour
         ObjectPool.Instance.DestoryDamageText(gameObject);
     }
 
-    public void Create(float Damage)
+    public void Create(float Damage, bool IsPlayer)
     {
+        sb.Clear();
         gameObject.SetActive(true);
-        text.text = Damage.ToString();
+        if (IsPlayer)
+            sb.Append("<color=#FFD400>");
+        else
+            sb.Append("<color=#FF0000>");
+        sb.Append(Damage);
+        sb.Append("</color>");
+        text.text = sb.ToString();
     }
 }

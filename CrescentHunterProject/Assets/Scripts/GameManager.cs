@@ -20,7 +20,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public M4uContextMonoBehaviour Context;
+    public VM_HUD HUDContext;
+    public VM_BlackSmith BlackSmithContext;
     public Player player;
     public LogManager logManager;
 }

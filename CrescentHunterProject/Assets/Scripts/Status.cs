@@ -25,6 +25,9 @@ public class Status : MonoBehaviour
     [SerializeField]
     protected float MaxSP = 100;
 
+
+    //
+    DamageCollider damageCollider; 
       
 
     public virtual void Heal(float value)
@@ -32,7 +35,7 @@ public class Status : MonoBehaviour
         health = Mathf.Clamp(health + value, 0, MaxHp);
     }
 
-    public virtual void Hit(float Damage)
+    public virtual void Hit(float Damage, Vector3 Position)
     {
         health = Mathf.Clamp(health - Damage, 0, MaxHp);
     }
@@ -49,10 +52,15 @@ public class Status : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Damage"))
+        if (other.CompareTag("Damage"))
         {
-            Hit(other.GetComponentInParent<Status>().Damage);
-            ObjectPool.Instance.CreateDamageText(other.bounds.center, other.GetComponentInParent<Status>().Damage);
+            if (other.TryGetComponent<DamageCollider>(out damageCollider))
+            {
+                float damage = damageCollider.Damage;
+                Hit(damage, other.bounds.center);
+            }
+            else
+                Debug.Log("Damage Collider does not exist At " + other.name);
         }
     }
 }

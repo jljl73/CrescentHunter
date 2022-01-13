@@ -12,5 +12,6 @@ public class ItemObject : MonoBehaviour, IInteraction
     public void OnInteraction()
     {
         GameManager.Instance.player.inventory.Add(itemData);
+        gameObject.SetActive(false);
     }
 }

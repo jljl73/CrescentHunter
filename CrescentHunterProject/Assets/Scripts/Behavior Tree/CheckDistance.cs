@@ -5,7 +5,7 @@ using BehaviorDesigner.Runtime.Tasks;
 public class CheckDistance : Conditional
 {
     [SerializeField]
-    SharedTransform target;
+    SharedGameObject target;
     [SerializeField]
     float Distance = 1.0f;
     [SerializeField]
@@ -15,7 +15,7 @@ public class CheckDistance : Conditional
 
     public override TaskStatus OnUpdate()
 	{
-        dist = (target.Value.position - transform.position).magnitude;
+        dist = (target.Value.transform.position - transform.position).magnitude;
 
         if(more)
             return dist > Distance ? TaskStatus.Success : TaskStatus.Failure;

@@ -12,10 +12,13 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityNavMeshAgent
         [SharedRequired]
         [Tooltip("The NavMeshAgent destination")]
         public SharedVector3 destination;
+        public SharedGameObject target;
 
         // cache the navmeshagent component
         private NavMeshAgent navMeshAgent;
         private GameObject prevGameObject;
+
+        Animator animator;
 
         public override void OnStart()
         {
@@ -24,7 +27,10 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityNavMeshAgent
                 navMeshAgent = currentGameObject.GetComponent<NavMeshAgent>();
                 prevGameObject = currentGameObject;
             }
+            animator = GetComponent<Animator>();
+            animator.SetBool("Move", true);
         }
+
 
         public override TaskStatus OnUpdate()
         {
@@ -33,7 +39,9 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityNavMeshAgent
                 return TaskStatus.Failure;
             }
 
-            return navMeshAgent.SetDestination(destination.Value) ? TaskStatus.Success : TaskStatus.Failure;
+            destination.Value = target.Value.transform.position;
+
+            return navMeshAgent.SetDestination(destination.Value) ? TaskStatus.Running : TaskStatus.Failure;
         }
 
         public override void OnReset()
@@ -41,5 +49,12 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityNavMeshAgent
             targetGameObject = null;
             destination = Vector3.zero;
         }
+
+        public override void OnEnd()
+        {
+            navMeshAgent.SetDestination(transform.position);
+            animator.SetBool("Move", false);
+        }
+
     }
 }

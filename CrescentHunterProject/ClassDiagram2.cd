@@ -4142,8 +4142,15 @@
       <FileName>Assets\Scripts\Status.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Inventory" Collapsed="true">
-    <Position X="53" Y="10.5" Width="1.5" />
+  <Class Name="Inventory">
+    <Position X="43.25" Y="10" Width="1.5" />
+    <NestedTypes>
+      <Class Name="Inventory.ItemData" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\UI\Inventory.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
     <TypeIdentifier>
       <HashCode>QgIAAAAAAAAAAAAAAAgIAAAAAAAAAIAAAAAAAAABAAA=</HashCode>
       <FileName>Assets\Scripts\UI\Inventory.cs</FileName>

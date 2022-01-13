@@ -3,7 +3,7 @@
 // © 2015 yedo-factory
 //----------------------------------------------
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 namespace M4u
 {
@@ -15,13 +15,13 @@ namespace M4u
     {
         public string Format = "";
 
-        Text ui;
+        TextMeshProUGUI ui;
 
         public override void Start()
         {
             base.Start();
 
-            ui = GetComponent<Text>();
+            ui = GetComponent<TextMeshProUGUI>();
             OnChange();
         }
 

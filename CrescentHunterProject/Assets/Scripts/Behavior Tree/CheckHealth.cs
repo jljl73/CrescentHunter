@@ -5,9 +5,9 @@ using BehaviorDesigner.Runtime.Tasks;
 public class CheckHealth : Conditional
 {
     [SerializeField]
-    SharedInt Health;
+    SharedFloat Health;
     [SerializeField]
-    int Threshold = 100;
+    float Threshold = 100.0f;
     [SerializeField]
     bool more;
 

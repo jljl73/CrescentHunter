@@ -5,7 +5,7 @@ using BehaviorDesigner.Runtime.Tasks;
 public class LookTarget : Action
 {
     [SerializeField]
-    SharedTransform target;
+    SharedGameObject target;
     [SerializeField]
     float Angle = 20.0f;
     [SerializeField]
@@ -33,11 +33,11 @@ public class LookTarget : Action
         if (target == null) return TaskStatus.Failure;
 
         Vector3 forward = transform.rotation * Vector3.forward;
-        Vector3 dir = (target.Value.position - transform.position).normalized;
+        Vector3 dir = (target.Value.transform.position - transform.position).normalized;
         float angle = Mathf.Acos(Vector3.Dot(forward, dir)) * Mathf.Rad2Deg;
 
         transform.rotation = Quaternion.Lerp(transform.rotation, 
-            Quaternion.LookRotation(target.Value.position - transform.position, Vector3.up).normalized, Time.deltaTime * RotSpeed);
+            Quaternion.LookRotation(target.Value.transform.position - transform.position, Vector3.up).normalized, Time.deltaTime * RotSpeed);
 
         
         if (Mathf.Abs(angle) < Angle)

@@ -22,12 +22,13 @@ public class ObjectPool : MonoBehaviour
     [SerializeField]
     GameObject DamageText;
     [SerializeField]
+    GameObject HitEffect;
+    [SerializeField]
     Camera mainCamera;
     [SerializeField]
     Canvas canvas;
 
     Stack<GameObject> damagetexts = new Stack<GameObject>();
-
     void Start()
     {
         if (_instance == null)
@@ -40,23 +41,26 @@ public class ObjectPool : MonoBehaviour
             damagetexts.Push(Instantiate(DamageText, canvas.transform));
     }
 
-    public void CreateDamageText(Vector3 position, float Damage)
+    public void CreateDamageText(Vector3 position, float Damage, bool IsPlayer)
     {
         if(damagetexts.Count == 0)
             damagetexts.Push(Instantiate(DamageText));
 
         GameObject newObj = damagetexts.Pop();
         newObj.transform.position = mainCamera.WorldToScreenPoint(position);
-        newObj.GetComponent<DamageText>().Create(Damage);
+        newObj.GetComponent<DamageText>().Create(Damage, IsPlayer);
     }
-
-    public void CreateRandomMissile(Vector3 position)
-    {
-
-    }
-
+        
     public void DestoryDamageText(GameObject gameObject)
     {
         damagetexts.Push(gameObject);
+    }
+
+    public void CreateHitEffect(Vector3 position)
+    {
+
+        HitEffect.SetActive(false);
+        HitEffect.transform.position = position;
+        HitEffect.SetActive(true);
     }
 }

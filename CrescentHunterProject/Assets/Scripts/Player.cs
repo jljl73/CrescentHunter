@@ -6,7 +6,8 @@ public class Player : MonoBehaviour
 {
     [SerializeField]
     float Speed = 3.0f;
-    
+    [SerializeField]
+    float NumStaminaHeal = 3.0f;
 
     [SerializeField]
     GameObject damage;
@@ -39,8 +40,13 @@ public class Player : MonoBehaviour
         status = GetComponent<PlayerStatus>();
     }
 
+
+
     void Update()
     {
+        if (animator.GetBool("Movable"))
+            status.AddStamina(Time.deltaTime * NumStaminaHeal);
+
         if (Input.GetKeyDown(KeyCode.Z))
             CursorLock();
 
@@ -48,16 +54,21 @@ public class Player : MonoBehaviour
         {
             Interaction();
         }
-
         if (Input.GetMouseButtonDown(0))
         {
             LightAttack();
         }
-
         if (Input.GetMouseButtonDown(1))
         {
             HeavyAttack();
         }
+        if (Input.GetMouseButtonUp(1))
+        {
+            HeavyAttackEnd();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+            Roll();
 
         if (Input.GetKeyDown(KeyCode.Q))
             inventory.ChangeSlot(false);
@@ -65,9 +76,11 @@ public class Player : MonoBehaviour
             inventory.ChangeSlot(true);
         if (Input.GetKeyDown(KeyCode.F))
             inventory.UseCurrentSlot(status);
-
-
-            if (animator.GetBool("Movable") == false)
+    }
+    
+    void FixedUpdate()
+    {
+        if (animator.GetBool("Movable") == false)
             return;
 
         animator.SetFloat("Speed", 0.0f);
@@ -111,6 +124,21 @@ public class Player : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, CameraTransform.rotation.eulerAngles.y, 0);
     }
 
+    void HeavyAttackEnd()
+    {
+        animator.SetBool("Right Attack End", true);
+    }
+
+    void Roll()
+    {
+        if (status.Stamina < 10)
+            return;
+
+        animator.SetTrigger("Roll");
+        dir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        Turn(dir);
+    }
+
     public void OnDamage()
     {
         damage?.SetActive(true);
@@ -131,7 +159,15 @@ public class Player : MonoBehaviour
     void Interaction()
     {
         SelectedObject = NearestObject();
-        SelectedObject?.GetComponent<IInteraction>().OnInteraction();
+        if (SelectedObject == null)
+            return;
+
+        SelectedObject.GetComponent<IInteraction>().OnInteraction();
+        if (SelectedObject.GetComponent<IInteraction>() is ItemObject)
+        {
+            ClearText(SelectedObject);
+            Destroy(SelectedObject);
+        }
     }
     
     GameObject NearestObject()
@@ -160,7 +196,7 @@ public class Player : MonoBehaviour
         if (other.CompareTag("Interaction"))
         {
             NearObjects.Add(other.gameObject);
-            GameManager.Instance.Context.ItemName = NearestObject()?.GetComponent<IInteraction>().IName;
+            GameManager.Instance.HUDContext.ItemName = NearestObject()?.GetComponent<IInteraction>().IName;
         }
     }
 
@@ -168,11 +204,16 @@ public class Player : MonoBehaviour
     {
         if (other.CompareTag("Interaction"))
         {
-            NearObjects.Remove(other.gameObject);
-            if (NearestObject() == null)
-                GameManager.Instance.Context.ItemName = "";
-            else
-                GameManager.Instance.Context.ItemName = NearestObject().GetComponent<IInteraction>().IName;
+            ClearText(other.gameObject);
         }
+    }
+
+    void ClearText(GameObject other)
+    {
+        NearObjects.Remove(other);
+        if (NearestObject() == null)
+            GameManager.Instance.HUDContext.ItemName = "";
+        else
+            GameManager.Instance.HUDContext.ItemName = NearestObject().GetComponent<IInteraction>().IName;
     }
 }

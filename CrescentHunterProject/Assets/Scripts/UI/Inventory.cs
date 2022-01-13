@@ -66,17 +66,17 @@ public class Inventory
     {
 
         if (i > 0)
-            GameManager.Instance.Context.ItemSlotL.Copy(items[i - 1].itemSO, items[i - 1].num);
+            GameManager.Instance.HUDContext.ItemSlotL.Copy(items[i - 1].itemSO, items[i - 1].num);
         else
-            GameManager.Instance.Context.ItemSlotL.Copy(null);
+            GameManager.Instance.HUDContext.ItemSlotL.Copy(null);
         if (i < items.Count - 1)
-            GameManager.Instance.Context.ItemSlotR.Copy(items[i + 1].itemSO, items[i + 1].num);
+            GameManager.Instance.HUDContext.ItemSlotR.Copy(items[i + 1].itemSO, items[i + 1].num);
         else
-            GameManager.Instance.Context.ItemSlotR.Copy(null);
+            GameManager.Instance.HUDContext.ItemSlotR.Copy(null);
 
         if (items.Count > 0)
-            GameManager.Instance.Context.ItemSlotC.Copy(items[i].itemSO, items[i].num);
+            GameManager.Instance.HUDContext.ItemSlotC.Copy(items[i].itemSO, items[i].num);
         else
-            GameManager.Instance.Context.ItemSlotC.Copy(null);
+            GameManager.Instance.HUDContext.ItemSlotC.Copy(null);
     }
 }

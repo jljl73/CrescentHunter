@@ -20,7 +20,7 @@ public class SleepAction : Action
 
     public override TaskStatus OnUpdate()
     {
-        return TaskStatus.Running;
+        return TaskStatus.Success;
     }
 
     public override void OnEnd()
