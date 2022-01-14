@@ -20,6 +20,8 @@ public class Inventory
     List<ItemData> items = new List<ItemData>();
 
     int index = 0;
+
+    public bool IsEmpty { get { return items.Count == 0; } }
     
     public void Add(ItemSO item)
     {
@@ -50,7 +52,7 @@ public class Inventory
 
     public void UseCurrentSlot(Status status)
     {
-        if (items.Count == 0) return;
+        if (IsEmpty) return;
 
         items[index].itemSO.Use(status);
         if (--items[index].num == 0)

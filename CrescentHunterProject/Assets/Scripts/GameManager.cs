@@ -20,8 +20,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public enum Mode { Play, UI }
+
+    Mode gameMode;
+    public Mode GameMode => gameMode;
     public VM_HUD HUDContext;
     public VM_BlackSmith BlackSmithContext;
     public Player player;
     public LogManager logManager;
+
+    public void ModeChange(Mode mode)
+    {
+        gameMode = mode;
+    }
 }

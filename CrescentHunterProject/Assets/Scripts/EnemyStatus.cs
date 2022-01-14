@@ -8,7 +8,7 @@ public class EnemyStatus : Status
     {
         base.Hit(Damage, Position);
         ObjectPool.Instance.CreateDamageText(Position, Damage, true);
-        ObjectPool.Instance.CreateHitEffect(Position);
+        //ObjectPool.Instance.CreateHitEffect(Position);
         SoundPlayer.Instance.Play(0);
     }
 

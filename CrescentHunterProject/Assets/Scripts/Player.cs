@@ -44,6 +44,9 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance.GameMode != GameManager.Mode.Play) return;
+
+
         if (animator.GetBool("Movable"))
             status.AddStamina(Time.deltaTime * NumStaminaHeal);
 
@@ -75,11 +78,13 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
             inventory.ChangeSlot(true);
         if (Input.GetKeyDown(KeyCode.F))
-            inventory.UseCurrentSlot(status);
+            Drink();
     }
     
     void FixedUpdate()
     {
+        if (GameManager.Instance.GameMode != GameManager.Mode.Play) return;
+
         if (animator.GetBool("Movable") == false)
             return;
 
@@ -138,6 +143,18 @@ public class Player : MonoBehaviour
         dir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         Turn(dir);
     }
+
+    void UseItem()
+    {
+        if(!inventory.IsEmpty)
+            inventory.UseCurrentSlot(status);
+    }
+
+    void Drink()
+    {
+        animator.SetTrigger("Drink");
+    }
+
 
     public void OnDamage()
     {

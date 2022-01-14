@@ -15,7 +15,7 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     GameObject[] Damage;
     [SerializeField]
-    GameObject[] Projectile;
+    string[] Projectile;
 
     public void OnDamage(int index)
     {
@@ -29,11 +29,12 @@ public class Enemy : MonoBehaviour
 
     public void OnProjectile(int index)
     {
-        Projectile[index].transform.position = 
-            target.transform.position +
-            new Vector3(0.0f, 7.0f, 0.0f);
+        ObjectPool.Instance.CreateEffect(Projectile[index], target.transform.position + new Vector3(0.0f, 7.0f, 0.0f));
+        //Projectile[index].transform.position = 
+        //    target.transform.position +
+        //    new Vector3(0.0f, 7.0f, 0.0f);
         //new Vector3(Random.Range(-5.0f, 5.0f), 3.0f, Random.Range(-5.0f, 5.0f));
-        Projectile[index].SetActive(true);
+        //Projectile[index].SetActive(true);
     }
 
     void OnTriggerEnter(Collider other)

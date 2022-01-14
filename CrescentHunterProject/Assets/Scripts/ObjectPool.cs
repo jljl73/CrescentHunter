@@ -21,14 +21,19 @@ public class ObjectPool : MonoBehaviour
 
     [SerializeField]
     GameObject DamageText;
-    [SerializeField]
-    GameObject HitEffect;
+
     [SerializeField]
     Camera mainCamera;
     [SerializeField]
     Canvas canvas;
 
     Stack<GameObject> damagetexts = new Stack<GameObject>();
+    List<List<GameObject>> projectiles = new List<List<GameObject>>();
+
+    [SerializeField]
+    GameObject[] poolables;
+    public Dictionary<string, Stack<GameObject>> pool = new Dictionary<string, Stack<GameObject>>();
+
     void Start()
     {
         if (_instance == null)
@@ -39,6 +44,23 @@ public class ObjectPool : MonoBehaviour
 
         for (int i = 0; i < 10; ++i)
             damagetexts.Push(Instantiate(DamageText, canvas.transform));
+
+        InitializePool();
+    }
+
+    void InitializePool()
+    {
+        for (int i = 0; i < poolables.Length; ++i)
+        {
+            string Key = poolables[i].GetComponent<Poolable>().Key;
+            Transform parent = poolables[i].GetComponent<Poolable>().IsCanvas ? canvas.transform : transform;
+
+            pool[Key] = new Stack<GameObject>();
+            GameObject poolable = poolables[i];
+
+            for (int c = 0; c < 5;++c)
+                pool[Key].Push(Instantiate(poolable, parent));
+        }
     }
 
     public void CreateDamageText(Vector3 position, float Damage, bool IsPlayer)
@@ -56,11 +78,10 @@ public class ObjectPool : MonoBehaviour
         damagetexts.Push(gameObject);
     }
 
-    public void CreateHitEffect(Vector3 position)
+    public void CreateEffect(string Key, Vector3 position)
     {
-
-        HitEffect.SetActive(false);
-        HitEffect.transform.position = position;
-        HitEffect.SetActive(true);
+        GameObject newObj = pool[Key].Pop();
+        newObj.SetActive(true);
+        newObj.transform.position = position;
     }
 }
