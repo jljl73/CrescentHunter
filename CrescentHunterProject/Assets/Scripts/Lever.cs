@@ -18,6 +18,9 @@ public class Lever : MonoBehaviour, IInteraction
 
     public void OnInteraction()
     {
+        if (animator.GetBool("LeverDown"))
+            return;
+
         animator.SetBool("LeverDown", true);
         Invoke("OnLever", 1.0f);
     }

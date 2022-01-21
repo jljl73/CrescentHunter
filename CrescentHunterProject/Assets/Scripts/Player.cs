@@ -17,30 +17,29 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     GameObject SelectedObject;
-
-
-    bool cursorInScreen = true;
+    
     Vector3 dir = Vector3.zero;
 
     List<GameObject> NearObjects = new List<GameObject>();
 
     Animator animator;
     PlayerStatus status;
+    Equipment equipment;
 
-    public Inventory inventory = new Inventory();
+    public Inventory inventory;
 
     void Awake()
     {
         GameManager.Instance.player = this;
+        inventory = Inventory.Instance;
     }
 
     void Start()
     {
         animator = GetComponent<Animator>();
         status = GetComponent<PlayerStatus>();
+        equipment = GetComponentInChildren<Equipment>();
     }
-
-
 
     void Update()
     {
@@ -50,8 +49,7 @@ public class Player : MonoBehaviour
         if (animator.GetBool("Movable"))
             status.AddStamina(Time.deltaTime * NumStaminaHeal);
 
-        if (Input.GetKeyDown(KeyCode.Z))
-            CursorLock();
+        
 
         if (Input.GetKeyDown(KeyCode.G))
         {
@@ -83,25 +81,29 @@ public class Player : MonoBehaviour
     
     void FixedUpdate()
     {
-        if (GameManager.Instance.GameMode != GameManager.Mode.Play) return;
 
+        // 초기화
         if (animator.GetBool("Movable") == false)
             return;
-
         animator.SetFloat("Speed", 0.0f);
+        
+        //
+        if (GameManager.Instance.GameMode != GameManager.Mode.Play)
+            return;
+        
+        // 입력
         dir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-
         if (dir.sqrMagnitude > 0.1)
         {
             Turn(dir);
-            RunForward();
+            RunForward(dir.sqrMagnitude);
         }
     }
 
-    void RunForward()
+    void RunForward(float speed)
     {
         transform.Translate(Speed * Vector3.forward * Time.deltaTime);
-        animator.SetFloat("Speed", 3.0f);
+        animator.SetFloat("Speed", speed);
     }
 
     void Turn(Vector3 dir)
@@ -113,16 +115,16 @@ public class Player : MonoBehaviour
 
     void LightAttack()
     {
-        if (status.Stamina < 5)
+        if (status.Stamina < 5 || animator.GetBool("Dead"))
             return;
-
+        
         animator.SetTrigger("Left Attack");
         transform.rotation = Quaternion.Euler(0, CameraTransform.rotation.eulerAngles.y, 0);
     }
 
     void HeavyAttack()
     {
-        if (status.Stamina < 10)
+        if (status.Stamina < 10 || animator.GetBool("Dead"))
             return;
 
         animator.SetBool("Right Attack", true);
@@ -155,23 +157,38 @@ public class Player : MonoBehaviour
         animator.SetTrigger("Drink");
     }
 
-
-    public void OnDamage()
+    void Die()
     {
+        GameManager.Instance.Restart();
+    }
+
+    public void Resurrection()
+    {
+        animator.SetTrigger("Getup");
+        status.Initialize();
+    }
+
+    public void OnDamage(float value)
+    {
+        damage.GetComponent<DamageCollider>().Damage = value;  
         damage?.SetActive(true);
     }
 
-    public void OffDamage()
+    public void OffDamage(int value)
     {
         damage?.SetActive(false);
-        status.AddStamina(-5);
     }
 
-    public void CursorLock()
+    public void UseStamina(int value)
     {
-        cursorInScreen = !cursorInScreen;
-        Cursor.lockState = cursorInScreen ? CursorLockMode.Locked : CursorLockMode.None;
+        status.AddStamina(value);
     }
+
+    public void OnEquip(int index)
+    {
+        equipment.OnEquip(index);
+    }
+
 
     void Interaction()
     {

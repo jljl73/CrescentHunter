@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f06d5659d554c84b84fa95e0e43e986, type: 3}
   m_Name: ItemEM 004
   m_EditorClassIdentifier: 
-  Equipment: {fileID: 11400000, guid: ac4cd614a3b744d46bacbee76e90001e, type: 2}
+  item: {fileID: 11400000, guid: ac4cd614a3b744d46bacbee76e90001e, type: 2}
   items:
   - item: {fileID: 11400000, guid: f5e31bef5c9050f48b6ac937550d0f12, type: 2}
     Num: 5

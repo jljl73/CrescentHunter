@@ -35,13 +35,13 @@ public class AnimationEventEffects : MonoBehaviour {
             StartCoroutine(IOffEffect(EffectNumber));
     }
 
-    void OffAllEffect()
-    {
-        for(int i = 0; i < Effects.Length; ++i)
-        {
-            Effects[i].Effect.SetActive(false);
-        }
-    }
+    //void OffAllEffect()
+    //{
+    //    for(int i = 0; i < Effects.Length; ++i)
+    //    {
+    //        Effects[i].Effect.SetActive(false);
+    //    }
+    //}
 
     void OffEffect(int EffectNumber)
     {

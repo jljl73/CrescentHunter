@@ -14,6 +14,9 @@ public class ItemSO : ScriptableObject
     [SerializeField]
     int num = 0;
     public int Num { get => num; set => num = value; }
+    [SerializeField]
+    int price = 0;
+    public int Price { get => price; }
 
 
     public virtual void Use(Status status)

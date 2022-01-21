@@ -4,18 +4,24 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    // BT
     [SerializeField]
     GameObject target;
     public GameObject Target { get => target; }
-
     [SerializeField]
     Vector3 destination;
     public Vector3 Destination { get => destination; }
 
+    // Attack
     [SerializeField]
     GameObject[] Damage;
     [SerializeField]
     string[] Projectile;
+
+    // Death
+    [SerializeField]
+    GameObject Panel;
+
 
     public void OnDamage(int index)
     {
@@ -30,11 +36,11 @@ public class Enemy : MonoBehaviour
     public void OnProjectile(int index)
     {
         ObjectPool.Instance.CreateEffect(Projectile[index], target.transform.position + new Vector3(0.0f, 7.0f, 0.0f));
-        //Projectile[index].transform.position = 
-        //    target.transform.position +
-        //    new Vector3(0.0f, 7.0f, 0.0f);
-        //new Vector3(Random.Range(-5.0f, 5.0f), 3.0f, Random.Range(-5.0f, 5.0f));
-        //Projectile[index].SetActive(true);
+    }
+
+    public void Die()
+    {
+        GameManager.Instance.QuestClear();
     }
 
     void OnTriggerEnter(Collider other)

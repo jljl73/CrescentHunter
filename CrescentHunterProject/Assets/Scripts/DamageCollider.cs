@@ -10,7 +10,9 @@ public class DamageCollider : MonoBehaviour
 
     [SerializeField]
     float damage = 10.0f;
-    public float Damage { get => damage; }
+    public float Damage {
+        get { return damage; }
+        set { damage = value; } }
 
     [SerializeField]
     GameObject Effect = null;

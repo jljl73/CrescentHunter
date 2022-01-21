@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyStatus : Status
 {
+    
     public override void Hit(float Damage, Vector3 Position)
     {
         base.Hit(Damage, Position);
@@ -12,4 +13,5 @@ public class EnemyStatus : Status
         SoundPlayer.Instance.Play(0);
     }
 
+    
 }

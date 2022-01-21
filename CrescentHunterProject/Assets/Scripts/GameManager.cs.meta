@@ -3,8 +3,14 @@ guid: e5f76fedbf44ab44abe764505addfb87
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
-  executionOrder: 0
+  defaultReferences:
+  - HUDContext: {instanceID: 0}
+  - BlackSmithContext: {instanceID: 0}
+  - InventoryContext: {instanceID: 0}
+  - player: {instanceID: 0}
+  - logManager: {instanceID: 0}
+  - QuestClearPanel: {instanceID: 0}
+  executionOrder: -50
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 

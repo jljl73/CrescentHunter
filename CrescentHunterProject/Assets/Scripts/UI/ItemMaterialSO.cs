@@ -6,8 +6,8 @@ using UnityEngine;
 public class ItemMaterialSO : ScriptableObject
 {
     [SerializeField]
-    ItemSO Equipment;
-    public ItemSO Item { get => Equipment; }
+    ItemSO item;
+    public ItemSO Item { get => item; }
     
     [System.Serializable]
     public struct ItemData
@@ -19,4 +19,26 @@ public class ItemMaterialSO : ScriptableObject
     [SerializeField]
     ItemData[] items;
     public ItemData[] Materials { get => items; }
+
+    public bool IsMeet(Inventory inventory)
+    {
+        for(int i =0; i < Materials.Length; ++i)
+        {
+            int num = inventory.GetNumberItem(Materials[i].item);
+            if (num < Materials[i].Num)
+                return false;
+        }
+        return true;
+    }
+
+    public void Produce(Inventory inventory)
+    {
+        if (IsMeet(inventory) == false) return;
+        for (int i = 0; i < Materials.Length; ++i)
+        {
+            inventory.Remove(Materials[i].item, Materials[i].Num);
+        }
+        inventory.Add(Item);
+    }
+
 }

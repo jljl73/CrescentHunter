@@ -17,6 +17,10 @@ public class CameraController : MonoBehaviour
 
     void LateUpdate()
     {
+        // 게임상태 확인
+        if (GameManager.Instance.GameMode != GameManager.Mode.Play)
+            return;
+
         mouseX += Input.GetAxis("Mouse X") * sensitivity;
         mouseY -= Input.GetAxis("Mouse Y") * sensitivity;
         distance -= Input.GetAxis("Mouse ScrollWheel");

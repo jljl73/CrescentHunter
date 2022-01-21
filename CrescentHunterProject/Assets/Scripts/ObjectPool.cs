@@ -84,4 +84,12 @@ public class ObjectPool : MonoBehaviour
         newObj.SetActive(true);
         newObj.transform.position = position;
     }
+
+    public void CreateProjectile(string Key, Vector3 position, GameObject target)
+    {
+        GameObject newObj = pool[Key].Pop();
+        newObj.SetActive(true);
+        newObj.transform.position = position;
+        newObj.GetComponent<EffectSettings>().Target = target;
+    }
 }

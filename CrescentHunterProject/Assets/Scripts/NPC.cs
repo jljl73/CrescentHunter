@@ -9,11 +9,11 @@ public class NPC : MonoBehaviour, IInteraction
     public string IName => iName;
 
     [SerializeField]
-    GameObject Popup;
+    PopupManager.Type[] Popups;
 
     public void OnInteraction()
     {
-        Popup?.SetActive(true);
-        GameManager.Instance.ModeChange(GameManager.Mode.UI);
+        for(int i = 0; i < Popups.Length;++i)
+            PopupManager.Instance.ShowPopup(Popups[i]);
     }
 }

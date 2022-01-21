@@ -161,7 +161,7 @@ GameObject:
   - component: {fileID: 4346896878500072700}
   - component: {fileID: 4346896878500072690}
   - component: {fileID: 4346896878500072691}
-  - component: {fileID: 3405159928976392016}
+  - component: {fileID: 42528603609317624}
   m_Layer: 5
   m_Name: Text (TMP) (1)
   m_TagString: Untagged
@@ -285,7 +285,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &3405159928976392016
+--- !u!114 &42528603609317624
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -294,12 +294,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 4346896878500072701}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdd408af5299c4d3a8e231057371faae, type: 3}
+  m_Script: {fileID: 11500000, guid: 4dc85c2df211b4540a6d0126628f46cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   MasterPath: 
-  Path: Num
-  Format: '{0}'
+  Path:
+  - Num
+  - MaxNum
+  Format: '{0}/{1}'
 --- !u!1 &4346896878924111673
 GameObject:
   m_ObjectHideFlags: 0

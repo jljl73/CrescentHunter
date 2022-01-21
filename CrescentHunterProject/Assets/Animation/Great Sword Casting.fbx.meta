@@ -63,7 +63,7 @@ ModelImporter:
         functionName: OnDamage
         data: 
         objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
+        floatParameter: 25
         intParameter: 0
         messageOptions: 0
       - time: 0.5924528

@@ -15,4 +15,5 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: a45cbd8cf3e236947b98a61e29378bb3, type: 3}
   itemName: "\uB0C9\uD639\uD55C \uAC80"
   num: 0
+  price: 600
   Damage: 10

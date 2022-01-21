@@ -27,8 +27,13 @@ public class Status : MonoBehaviour
 
 
     //
-    DamageCollider damageCollider; 
-      
+    DamageCollider damageCollider;
+
+    public virtual void Initialize()
+    {
+        health = MaxHp;
+        stamina = MaxSP;
+    }
 
     public virtual void Heal(float value)
     {
