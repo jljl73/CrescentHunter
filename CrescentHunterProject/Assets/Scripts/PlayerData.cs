@@ -14,7 +14,9 @@ public class PlayerData : MonoBehaviour
     int SwordIndex = 0;
 
     Inventory inventory;
+    [SerializeField]
     Player player;
+
     void Start()
     {
         player = GameManager.Instance.player;
@@ -23,8 +25,4 @@ public class PlayerData : MonoBehaviour
         player.OnEquip(SwordIndex);
     }
 
-    void Update()
-    {
-        
-    }
 }

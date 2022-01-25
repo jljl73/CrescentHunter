@@ -31,11 +31,13 @@ public class Enemy : MonoBehaviour
     public void OffDamage(int index)
     {
         Damage[index].SetActive(false);
+        CheckTargetAlive();
     }
 
     public void OnProjectile(int index)
     {
         ObjectPool.Instance.CreateEffect(Projectile[index], target.transform.position + new Vector3(0.0f, 7.0f, 0.0f));
+        CheckTargetAlive();
     }
 
     public void Die()
@@ -47,5 +49,11 @@ public class Enemy : MonoBehaviour
     {
         if (other.CompareTag("Player"))
             target = other.gameObject;
+    }
+
+    void CheckTargetAlive()
+    {
+        if (target != null && target.GetComponent<Status>().Health <= 0.0f)
+            target = null;
     }
 }

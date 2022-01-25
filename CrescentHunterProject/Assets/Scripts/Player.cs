@@ -17,7 +17,12 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     GameObject SelectedObject;
-    
+
+    [SerializeField]
+    GameObject SwordSlotHand;
+    [SerializeField]
+    GameObject SwordSlotBack;
+
     Vector3 dir = Vector3.zero;
 
     List<GameObject> NearObjects = new List<GameObject>();
@@ -32,14 +37,11 @@ public class Player : MonoBehaviour
     {
         GameManager.Instance.player = this;
         inventory = Inventory.Instance;
-    }
-
-    void Start()
-    {
         animator = GetComponent<Animator>();
         status = GetComponent<PlayerStatus>();
         equipment = GetComponentInChildren<Equipment>();
     }
+
 
     void Update()
     {
@@ -102,7 +104,10 @@ public class Player : MonoBehaviour
 
     void RunForward(float speed)
     {
-        transform.Translate(Speed * Vector3.forward * Time.deltaTime);
+        if(animator.GetBool("Unarmed"))
+            transform.Translate(Speed * Vector3.forward * Time.deltaTime);
+        //else
+        //    transform.Translate(Speed * Vector3.forward * Time.deltaTime * 0.2f);
         animator.SetFloat("Speed", speed);
     }
 
@@ -115,6 +120,9 @@ public class Player : MonoBehaviour
 
     void LightAttack()
     {
+        if (!CheckUnarmed(false))
+            return;
+
         if (status.Stamina < 5 || animator.GetBool("Dead"))
             return;
         
@@ -124,6 +132,9 @@ public class Player : MonoBehaviour
 
     void HeavyAttack()
     {
+        if (!CheckUnarmed(false))
+            return;
+
         if (status.Stamina < 10 || animator.GetBool("Dead"))
             return;
 
@@ -154,13 +165,24 @@ public class Player : MonoBehaviour
 
     void Drink()
     {
-        animator.SetTrigger("Drink");
+        if (CheckUnarmed(true))
+            animator.SetTrigger("Drink");
+    }
+
+    bool CheckUnarmed(bool value)
+    {
+        if (animator.GetBool("Unarmed") == value)
+            return true;
+
+        animator.SetTrigger("WeaponSwitch");
+        return false;
     }
 
     void Die()
     {
         GameManager.Instance.Restart();
     }
+
 
     public void Resurrection()
     {
@@ -189,6 +211,22 @@ public class Player : MonoBehaviour
         equipment.OnEquip(index);
     }
 
+    public void OnSwitch(int Unarmed)
+    {
+        if (Unarmed == 0)
+        {
+            equipment.transform.SetParent(SwordSlotBack.transform);
+            animator.SetBool("Unarmed", true);
+        }
+        else
+        {
+            equipment.transform.SetParent(SwordSlotHand.transform);
+            animator.SetBool("Unarmed", false);
+        }
+
+        equipment.transform.localPosition = Vector3.zero;
+        equipment.transform.localRotation = Quaternion.identity;
+    }
 
     void Interaction()
     {

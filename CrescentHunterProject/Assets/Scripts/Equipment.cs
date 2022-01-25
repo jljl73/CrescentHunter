@@ -7,7 +7,7 @@ public class Equipment : MonoBehaviour
     List<GameObject> Weapon = new List<GameObject>();
     int curWeaponIndex = 0;
 
-    void Start()
+    void Awake()
     {
         for (int i = 0; i < transform.childCount-1; ++i)
             Weapon.Add(transform.GetChild(i).gameObject);

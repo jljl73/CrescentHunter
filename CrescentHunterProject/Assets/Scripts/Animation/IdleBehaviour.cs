@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class IdleBehaviour : StateMachineBehaviour
 {
-    [SerializeField]
-    bool IsRun;
-
+    
     public override void OnStateEnter(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
     {
         animator.SetBool("Movable", true);
