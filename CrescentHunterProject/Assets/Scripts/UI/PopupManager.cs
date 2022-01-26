@@ -8,7 +8,7 @@ public class PopupManager : MonoBehaviour
     static public PopupManager Instance
     { get => _instance; }
 
-    public enum Type { BlackSmith, Market, Inventory, Entrance, Quest };
+    public enum Type { BlackSmith, Market, Inventory, Entrance, Quest, Equipment };
     
     //
     [SerializeField]

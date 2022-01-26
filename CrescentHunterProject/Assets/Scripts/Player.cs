@@ -192,7 +192,7 @@ public class Player : MonoBehaviour
 
     public void OnDamage(float value)
     {
-        damage.GetComponent<DamageCollider>().Damage = value;  
+        damage.GetComponent<DamageCollider>().Damage = value + equipment.GetCurrentWeapon().Damage;  
         damage?.SetActive(true);
     }
 
@@ -208,6 +208,7 @@ public class Player : MonoBehaviour
 
     public void OnEquip(int index)
     {
+        equipment.OnUnequip();
         equipment.OnEquip(index);
     }
 

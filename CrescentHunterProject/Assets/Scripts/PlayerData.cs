@@ -9,8 +9,6 @@ public class PlayerData : MonoBehaviour
     int Gold = 0;
     [Header("ÀåÂø ¹«±â")]
     [SerializeField]
-    Transform WeaponSlot;
-    [SerializeField]
     int SwordIndex = 0;
 
     Inventory inventory;
@@ -24,5 +22,4 @@ public class PlayerData : MonoBehaviour
         inventory.AddGold(Gold);
         player.OnEquip(SwordIndex);
     }
-
 }

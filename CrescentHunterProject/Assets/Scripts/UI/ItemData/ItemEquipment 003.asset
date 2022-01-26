@@ -16,4 +16,4 @@ MonoBehaviour:
   itemName: "\uD669\uAE08 \uAC80"
   num: 0
   price: 500
-  Damage: 10
+  damage: 30

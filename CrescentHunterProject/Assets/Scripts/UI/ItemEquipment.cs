@@ -6,7 +6,9 @@ using UnityEngine;
 public class ItemEquipment : ItemSO
 {
     [SerializeField]
-    float Damage = 10.0f;
+    float damage = 10.0f;
+    public float Damage { get => damage; }
+
 
 
 }
