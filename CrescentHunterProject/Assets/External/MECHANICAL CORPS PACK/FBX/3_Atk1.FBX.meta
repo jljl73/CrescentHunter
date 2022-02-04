@@ -951,6 +951,13 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.36270544
+        functionName: OnSound
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       - time: 0.37795275
         functionName: InstantiateEffect
         data: 
@@ -958,7 +965,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 1
         messageOptions: 0
-      - time: 0.38976377
+      - time: 0.38058946
         functionName: OnDamage
         data: 
         objectReferenceParameter: {instanceID: 0}

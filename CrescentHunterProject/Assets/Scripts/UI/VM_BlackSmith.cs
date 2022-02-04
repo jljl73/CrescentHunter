@@ -7,15 +7,25 @@ namespace M4u
 {
     public class VM_BlackSmith : M4uContextMonoBehaviour
     {
+        [SerializeField]
+        ItemMaterialSO[] itemMaterials = null;
+
+        ItemMaterialSO itemMaterial;
         Inventory inventory;
+        Equipment equipment;
+
+
         void Awake()
         {
             GameManager.Instance.BlackSmithContext = this;
+            inventory = Inventory.Instance;
+            equipment = GameManager.Instance.player.Equipment;
         }
 
-        void Start()
+        void OnEnable()
         {
-            inventory = Inventory.Instance;
+            Materials.Clear();
+            ClickedItem.Copy(null);
         }
 
         void Update()
@@ -24,7 +34,8 @@ namespace M4u
             {
                 if (itemMaterial != null && itemMaterial.IsMeet(inventory))
                 {
-                    itemMaterial.Produce(inventory);
+                    itemMaterial.Produce(inventory, equipment);
+                    MaterialUpdate();
                 }
             }
         }
@@ -33,29 +44,22 @@ namespace M4u
         M4uProperty<ItemContext> clickedItem = new M4uProperty<ItemContext>(new ItemContext());
         public ItemContext ClickedItem { get => clickedItem.Value; set => clickedItem.Value = value; }
 
-        [SerializeField]
-        ToggleGroup toggleGroup;
-
         M4uProperty<List<ItemContext>> materials = new M4uProperty<List<ItemContext>>(new List<ItemContext>());
         public List<ItemContext> Materials { get => materials.Value; }
 
-        ItemMaterialSO itemMaterial = null;
-        public void SelectItem()
+        public void SelectItem(int index)
         {
-            bool ExistActive = false;
-            foreach (Toggle t in toggleGroup.ActiveToggles())
-            {
-                ExistActive = true;
-                itemMaterial = t.GetComponent<ToggleItem>().ItemSO;
-                ClickedItem.Copy(itemMaterial.Item, 1, 1);
-                t.Select();
-            }
+            itemMaterial = itemMaterials[index];
+            ClickedItem.Copy(itemMaterial.Item, 1, 1);
 
+            MaterialUpdate();
+        }
+
+        void MaterialUpdate()
+        {
             Materials.Clear();
-            if (ExistActive == false)
-            { ClickedItem.Copy(null); return; }
 
-            for(int i = 0; i < itemMaterial?.Materials.Length; ++i)
+            for (int i = 0; i < itemMaterial?.Materials.Length; ++i)
             {
                 ItemContext itemContext = new ItemContext();
                 itemContext.Copy(itemMaterial.Materials[i].item, inventory.GetNumberItem(itemMaterial.Materials[i].item), itemMaterial.Materials[i].Num);

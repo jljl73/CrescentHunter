@@ -23,22 +23,23 @@ public class LoadingScene : MonoBehaviour
 
     IEnumerator LoadScene()
     {
+        yield return new WaitForSeconds(0.5f);
         AsyncOperation asynload = SceneManager.LoadSceneAsync(NextSceneIndex);
         asynload.allowSceneActivation = false;
-        float Timer = 0.0f;
 
-        while (asynload.progress < 0.9f)
+        float Timer = 0.0f;
+        while (Timer < 4.0f)
         {
             yield return null;
 
             LoadingCircleBar.Rotate(Vector3.forward, Time.deltaTime * -240.0f);
             Timer += Time.deltaTime;
-            LoadingBar.fillAmount = Mathf.Clamp(Timer, 0, 0.9f);
-            percent.text = string.Format("{0}", asynload.progress * 100.0f) + " %";
-
+            LoadingBar.fillAmount = Mathf.Clamp(Timer * 0.25f, 0, 0.9f);
+            percent.text = string.Format("{0:0#}", LoadingBar.fillAmount * 100.0f) + " %";
         }
 
         LoadingBar.fillAmount = 1.0f;
+        percent.text = string.Format("{0:0#}", 100.0f) + " %";
         yield return new WaitForSeconds(1.0f);
         asynload.allowSceneActivation = true;
     }

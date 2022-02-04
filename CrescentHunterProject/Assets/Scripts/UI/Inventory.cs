@@ -29,6 +29,7 @@ public class Inventory
     }
     [SerializeField]
     List<ItemData> items = new List<ItemData>();
+    public List<ItemData> Items { get => items; }
 
     int index = 0;
     int gold = 0;
@@ -39,6 +40,12 @@ public class Inventory
     public void AddGold(int value)
     {
         gold += value;
+        GameManager.Instance.InventoryContext.Gold = gold;
+    }
+
+    public void SetGold(int value)
+    {
+        gold = value;
         GameManager.Instance.InventoryContext.Gold = gold;
     }
 
@@ -57,8 +64,7 @@ public class Inventory
         }
     }
 
-
-    public void Add(ItemSO item)
+    public void Acquire(ItemSO item)
     {
         for(int i = items.Count - 1; i >= 0; --i)
         {
@@ -67,6 +73,7 @@ public class Inventory
                 items[i].num += 1;
                 UpdateSlot(index);
                 GameManager.Instance.InventoryContext.Acquire(item, 1);
+                GameManager.Instance.logManager.Log(item.ItemName + " È¹µæ");
                 return;
             }
         }
@@ -74,10 +81,30 @@ public class Inventory
         if (items.Count >= 12) // ¼ÒÁöÇ°ÀÌ ²ËÃ¡½À´Ï´Ù.
             return;
 
+        GameManager.Instance.logManager.Log(item.ItemName + " È¹µæ");
         GameManager.Instance.InventoryContext.Acquire(item, 1);
         items.Add(new ItemData(item, 1));
         UpdateSlot(index);
     }
+
+
+    public void Set(ItemSO item, int num)
+    {
+        for (int i = items.Count - 1; i >= 0; --i)
+        {
+            if (item == items[i].itemSO)
+            {
+                items[i].num = num;
+                UpdateSlot(index);
+                GameManager.Instance.InventoryContext.Set(item, num);
+                return;
+            }
+        }
+        GameManager.Instance.InventoryContext.Set(item, num);
+        items.Add(new ItemData(item, num));
+        UpdateSlot(index);
+    }
+
 
     public void Remove(ItemSO item, int num)
     {
@@ -87,7 +114,14 @@ public class Inventory
             {
                 if(items[i].num >= num)
                 items[i].num -= num;
-                UpdateSlot(index);
+
+                if (items[index].num == 0)
+                {
+                    items.Remove(items[index]);
+                    ChangeSlot(false);
+                }
+                else
+                    UpdateSlot(index);
                 return;
             }
         }
@@ -111,7 +145,7 @@ public class Inventory
     public void UseCurrentSlot(Status status)
     {
         if (IsEmpty) return;
-        if (items[index].itemSO.GetType() != typeof(ItemConsumable)) return;
+        if (!IsUsable()) return;
 
         items[index].itemSO.Use(status);
         if (--items[index].num == 0)
@@ -123,6 +157,11 @@ public class Inventory
             UpdateSlot(index);
     }
 
+    public bool IsUsable()
+    {
+        return items[index].itemSO.GetType() == typeof(ItemConsumable);
+    }
+
     public int GetNumberItem(ItemSO itemSO)
     {
         for(int i = 0; i < items.Count; ++i)
@@ -131,6 +170,11 @@ public class Inventory
                 return items[i].num;
         }
         return 0;
+    }
+
+    public void UpdateSlot()
+    {
+        UpdateSlot(index);
     }
     
     void UpdateSlot(int i)

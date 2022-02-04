@@ -16,4 +16,9 @@ public class NPC : MonoBehaviour, IInteraction
         for(int i = 0; i < Popups.Length;++i)
             PopupManager.Instance.ShowPopup(Popups[i]);
     }
+
+    public bool IsActive()
+    {
+        return gameObject.activeSelf;
+    }
 }

@@ -15,6 +15,7 @@ public class ItemMaterialSO : ScriptableObject
         public ItemSO item;
         public int Num;
     }
+
     [Header("필요한 재료")]
     [SerializeField]
     ItemData[] items;
@@ -31,14 +32,15 @@ public class ItemMaterialSO : ScriptableObject
         return true;
     }
 
-    public void Produce(Inventory inventory)
+    public void Produce(Inventory inventory, Equipment equipment)
     {
         if (IsMeet(inventory) == false) return;
         for (int i = 0; i < Materials.Length; ++i)
         {
             inventory.Remove(Materials[i].item, Materials[i].Num);
         }
-        inventory.Add(Item);
+        //inventory.Acquire(Item);
+        equipment.AcquireWeapon(Item);
     }
 
 }

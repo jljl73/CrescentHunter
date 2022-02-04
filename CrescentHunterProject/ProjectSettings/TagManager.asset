@@ -7,6 +7,9 @@ TagManager:
   - Damage
   - Interaction
   - Ground
+  - Item
+  - Door
+  - Enemy
   layers:
   - Default
   - TransparentFX

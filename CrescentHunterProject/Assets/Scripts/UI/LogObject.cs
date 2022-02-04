@@ -1,8 +1,17 @@
-using M4u;
+using UnityEngine;
+using TMPro;
 
-public class LogObject : M4uContext
+public class LogObject : MonoBehaviour
 {
-    M4uProperty<string> text = new M4uProperty<string>();
-    public string Text { get => text.Value; set => text.Value = value; }
+    TextMeshProUGUI content;
 
+    void Start()
+    {
+        content = GetComponentInChildren<TextMeshProUGUI>();
+    }
+
+    public void Log(string value)
+    {
+        content.text = value;
+    }
 }

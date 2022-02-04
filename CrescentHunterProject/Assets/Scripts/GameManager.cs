@@ -25,7 +25,12 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         if (_instance)
-        { Debug.Log("GameManager is duplicated"); return; }
+        {
+            Debug.Log("GameManager is duplicated");
+            Destroy(gameObject);
+            return;
+        }
+
         _instance = this;
         DontDestroyOnLoad(gameObject);
     }
@@ -42,16 +47,15 @@ public class GameManager : MonoBehaviour
     public VM_Inventory InventoryContext;
     public Player player;
     public LogManager logManager;
+    public UI_Effects UI;
+    public UI_SFX SFX;
 
-    [SerializeField]
-    GameObject QuestClearPanel;
-    [SerializeField]
-    Image EmtpyPanel;
+    public Vector3 StartPoint { get; set; }
 
     public void ChangeScene(int index)
     {
         NextSceneIndex = index;
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(3);
     }
 
     public void ModeChange(Mode mode)
@@ -61,49 +65,21 @@ public class GameManager : MonoBehaviour
 
     public void Restart()
     {
-        StartCoroutine(Resurrection(EmtpyPanel, 2.0f, 5.0f));
+        StartCoroutine(Resurrection(2.0f, 5.0f));
     }
 
     public void QuestClear()
     {
-        QuestClearPanel.SetActive(true);
-        StartCoroutine(Deactivate(QuestClearPanel, 30.0f));
-    }
-
-    IEnumerator Deactivate(GameObject gameObject, float time)
-    {
-        yield return new WaitForSeconds(time);
-        gameObject.SetActive(false);
-        ChangeScene(0);
+        UI.ShowClearPanel();
     }
 
 
-    IEnumerator Resurrection(Image image, float Duration, float Delay)
+    IEnumerator Resurrection(float Duration, float Delay)
     {
-        StartCoroutine(FadeOut(image, Duration));
+        UI.FadeOut(Duration);
         yield return new WaitForSeconds(Delay);
-        player.transform.position = transform.position;
-        StartCoroutine(FadeIn(image, Duration));
+        player.transform.position = StartPoint;
+        UI.FadeIn(Duration);
         player.Resurrection();
-    }
-
-    IEnumerator FadeOut(Image image, float Duration)
-    {
-        Color color = image.color;
-        while (image.color.a < 1.0f)
-        {
-            image.color = new Color(color.r, color.g, color.b, image.color.a + Time.deltaTime / Duration);
-            yield return null;
-        }
-    }
-
-    IEnumerator FadeIn(Image image, float Duration)
-    {
-        Color color = image.color;
-        while (image.color.a > 0.0f)
-        {
-            image.color = new Color(color.r, color.g, color.b, image.color.a - Time.deltaTime / Duration);
-            yield return null;
-        }
     }
 }

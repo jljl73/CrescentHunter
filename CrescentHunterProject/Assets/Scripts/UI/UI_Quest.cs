@@ -5,7 +5,12 @@ using UnityEngine;
 public class UI_Quest : MonoBehaviour
 {
 
-    int index = 1;
+    int index = -1;
+
+    private void OnEnable()
+    {
+        index = -1;
+    }
 
     void Update()
     {
@@ -20,7 +25,8 @@ public class UI_Quest : MonoBehaviour
 
     public void EnterDungeon()
     {
-        GameManager.Instance.ChangeScene(index);
+        if(index != -1)
+            GameManager.Instance.ChangeScene(index);
     }
 
 }

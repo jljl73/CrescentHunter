@@ -9,7 +9,9 @@ MonoImporter:
   - InventoryContext: {instanceID: 0}
   - player: {instanceID: 0}
   - logManager: {instanceID: 0}
-  - QuestClearPanel: {instanceID: 0}
+  - canvas: {instanceID: 0}
+  - QuestClearPanel: {fileID: 2457683842689519517, guid: 0a8bd4dea1912d047b9a1f6b8a563b93, type: 3}
+  - EmtpyPanel: {instanceID: 0}
   executionOrder: -50
   icon: {instanceID: 0}
   userData: 

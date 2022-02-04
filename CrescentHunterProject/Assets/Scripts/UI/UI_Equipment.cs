@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class UI_Equipment : MonoBehaviour
@@ -9,12 +10,25 @@ public class UI_Equipment : MonoBehaviour
     ItemSO[] itemLists;
     [SerializeField]
     TextMeshProUGUI ItemNameText;
+    [SerializeField]
+    Image[] itemImages;
 
     Player player;
     int index = 0;
-    void Start()
+    void Awake()
     {
         player = GameManager.Instance.player;
+    }
+    //A6FF81
+    void OnEnable()
+    {
+        for (int i = 0; i < itemLists.Length; ++i)
+        {
+            if (player.Equipment.IsEquippable(i))
+                itemImages[i].color = new Color(166, 255, 129);
+            else
+                itemImages[i].color = new Color(255, 0, 0);
+        }
     }
 
     void Update()

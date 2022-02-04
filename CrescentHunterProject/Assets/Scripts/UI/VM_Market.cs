@@ -24,7 +24,7 @@ public class VM_Market : M4uContextMonoBehaviour
         inventory = Inventory.Instance;
         for(int i = 0; i < itemSOs.Length; ++i)
         {
-            Items.Add(new ItemContext(itemSOs[i]));
+            Items.Add(new ItemContext(itemSOs[i], 1));
         }
     }
 
@@ -39,7 +39,10 @@ public class VM_Market : M4uContextMonoBehaviour
         if (currentIndex < 0) return;
 
         if (inventory.SubGold(itemSOs[currentIndex].Price))
-            inventory.Add(itemSOs[currentIndex]);
+        {
+            inventory.Acquire(itemSOs[currentIndex]);
+            GameManager.Instance.SFX.Play(1);
+        }
     }
     public void SelectItem(int index)
     {

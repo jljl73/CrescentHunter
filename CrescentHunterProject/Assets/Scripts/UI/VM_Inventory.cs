@@ -26,7 +26,21 @@ public class VM_Inventory : M4uContextMonoBehaviour
                 return;
             }
         }
-        Items.Add(new ItemContext(itemSO));
+        Items.Add(new ItemContext(itemSO, 1));
+    }
+
+    public void Set(ItemSO itemSO, int num)
+    {
+        for (int i = 0; i < Items.Count; ++i)
+        {
+            if (Items[i].Name == itemSO.ItemName)
+            {
+                Items[i].Num = num;
+                return;
+            }
+        }
+
+        Items.Add(new ItemContext(itemSO, num));
     }
 
     public void Remove(ItemSO itemSO, int num)

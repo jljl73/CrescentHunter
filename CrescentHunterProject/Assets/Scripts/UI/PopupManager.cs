@@ -18,7 +18,6 @@ public class PopupManager : MonoBehaviour
     Type currentPopup;
     Stack<GameObject> OpenedPopups = new Stack<GameObject>();
 
-    //
 
     bool cursorInScreen = true;
 
@@ -34,7 +33,7 @@ public class PopupManager : MonoBehaviour
         Popups[(int)type].SetActive(true);
         Popups[(int)type].transform.SetAsLastSibling();
         OpenedPopups.Push(Popups[(int)type]);
-        //currentPopup = type;
+        GameManager.Instance.SFX.Play(0);
         CursorLock(false);
     }
 
@@ -42,8 +41,8 @@ public class PopupManager : MonoBehaviour
     {
         if (OpenedPopups.Count == 0) return;
 
+        GameManager.Instance.SFX.Play(0);
         OpenedPopups.Pop().SetActive(false);
-        //Popups[(int)type].SetActive(false);
         if (OpenedPopups.Count == 0);
             CursorLock(true);
     }

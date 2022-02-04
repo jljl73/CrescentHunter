@@ -26,11 +26,11 @@ public class ItemContext : M4uContext
         Price = 0;
     }
 
-    public ItemContext(ItemSO itemSO)
+    public ItemContext(ItemSO itemSO, int num)
     {
         Name = itemSO.ItemName;
         Sprite = itemSO.Sprite;
-        Num = 1;
+        this.Num = num;
         MaxNum = itemSO.Num;
         Price = itemSO.Price;
     }
